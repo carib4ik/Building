@@ -1,3 +1,5 @@
+using BaCon;
+using BaCon.Scripts;
 using Building.Scripts.Game.Gameplay.Root;
 using Building.Scripts.Game.GameRoot;
 using Building.Scripts.Game.MainMenu.Root.View;
@@ -11,8 +13,16 @@ namespace Building.Scripts.Game.MainMenu.Root
         [SerializeField] private UIMainMenuRootBinder _sceneUIRootPrefab;
 
 
-        public Observable<MainMenuExitParams> Run(UIRootView uiRoot, MainMenuEnterParams enterParams)
+        public Observable<MainMenuExitParams> Run(DIContainer mainMenuContainer, MainMenuEnterParams enterParams)
         {
+            MainMenuRegistrations.Register(mainMenuContainer, enterParams);
+            var mainMenuViewModelsContainer = new DIContainer(mainMenuContainer);
+            MainMenuViewModelsRegistrations.Register(mainMenuViewModelsContainer);
+            
+            //for test
+            mainMenuViewModelsContainer.Resolve<UIMainMenuRootViewModel>();
+            
+            var uiRoot = mainMenuContainer.Resolve<UIRootView>();
             var uiScene = Instantiate(_sceneUIRootPrefab);
             uiRoot.AttachSceneUI(uiScene.gameObject);
 
