@@ -3,6 +3,7 @@ using BaCon.Scripts;
 using Building.Scripts.Game.Gameplay.Root;
 using Building.Scripts.Game.GameRoot.Services;
 using Building.Scripts.Game.MainMenu.Root;
+using Building.Scripts.Game.State;
 using Building.Scripts.Utils;
 using R3;
 using UnityEngine;
@@ -38,6 +39,10 @@ namespace Building.Scripts.Game.GameRoot
             _uiRoot = Object.Instantiate(prefabUIRoot);
             Object.DontDestroyOnLoad(_uiRoot.gameObject);
             _rootContainer.RegisterInstance(_uiRoot);
+
+            var gameStateProvider = new PlayerPrefsGameStateProvider();
+            gameStateProvider.LoadSettingsState();
+            _rootContainer.RegisterInstance<IGameStateProvider>(gameStateProvider);
             
             _rootContainer.RegisterFactory(c => new SomeCommonService()).AsSingle();
         }
@@ -79,6 +84,10 @@ namespace Building.Scripts.Game.GameRoot
             yield return LoadScene(Scenes.GAMEPLAY);
 
             yield return new WaitForSeconds(1);
+
+            var isGameStateLoaded = false;
+            _rootContainer.Resolve<IGameStateProvider>().LoadGameState().Subscribe(_ => isGameStateLoaded = true);
+            yield return new WaitUntil(() => isGameStateLoaded);
 
             var sceneEntryPoint = Object.FindFirstObjectByType<GameplayEntryPoint>();
             var gameplayContainer = _cashedSceneContainer = new DIContainer(_rootContainer);
