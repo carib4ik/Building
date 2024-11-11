@@ -1,8 +1,13 @@
 using BaCon;
 using BaCon.Scripts;
+using Building.Scripts.Game.Gameplay.Commands;
 using Building.Scripts.Game.Gameplay.Root.View;
+using Building.Scripts.Game.Gameplay.Services;
 using Building.Scripts.Game.GameRoot;
 using Building.Scripts.Game.MainMenu.Root;
+using Building.Scripts.Game.State;
+using Building.Scripts.Game.State.cmd;
+using ObservableCollections;
 using R3;
 using UnityEngine;
 
@@ -18,6 +23,24 @@ namespace Building.Scripts.Game.Gameplay.Root
             GameplayRegistrations.Register(gameplayContainer, enterParams);
             var gameplayViewModelsContainer = new DIContainer(gameplayContainer);
             GameplayViewModelsRegistrations.Register(gameplayViewModelsContainer);
+            
+            // temp
+            var gameStateProvider = gameplayContainer.Resolve<IGameStateProvider>();
+            
+            // temp
+            gameStateProvider.GameState.Buildings.ObserveAdd().Subscribe(e =>
+            {
+                var building = e.Value;
+                Debug.Log("Building placed. TypeId: " + building.TypeId +
+                          " Id: " + building.Id +
+                          ", Position: " + building.Position.Value);
+            });
+
+            var buildingsService = gameplayContainer.Resolve<BuildingsService>();
+            
+            buildingsService.PlaceBuilding("vasyan", GetRandomPosition());
+            buildingsService.PlaceBuilding("stasyan", GetRandomPosition());
+            buildingsService.PlaceBuilding("boryan", GetRandomPosition());
             
             //for test
             gameplayViewModelsContainer.Resolve<UIGameplayRootViewModel>();
@@ -38,6 +61,15 @@ namespace Building.Scripts.Game.Gameplay.Root
             var exitToMainMenuSceneSignal = exitSceneSignalSubj.Select(_ => exitParams);
 
             return exitToMainMenuSceneSignal;
+        }
+
+        private Vector3Int GetRandomPosition()
+        {
+            var rX = Random.Range(-10, 10);
+            var rY = Random.Range(-10, 10);
+            var rPosition = new Vector3Int(rX, rY, 0);
+
+            return rPosition;
         }
     }
 }

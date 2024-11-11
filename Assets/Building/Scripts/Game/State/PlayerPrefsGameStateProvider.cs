@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Building.Scripts.Game.State.Buildings;
+using Building.Scripts.Game.State.Entities.Buildings;
 using Building.Scripts.Game.State.Root;
 using R3;
 using UnityEngine;

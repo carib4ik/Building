@@ -1,8 +1,9 @@
 using BaCon.Scripts;
+using Building.Scripts.Game.Gameplay.Commands;
 using Building.Scripts.Game.Gameplay.Root;
 using Building.Scripts.Game.Gameplay.Services;
-using Building.Scripts.Game.GameRoot.Services;
 using Building.Scripts.Game.State;
+using Building.Scripts.Game.State.cmd;
 
 namespace Building.Scripts.Game.Gameplay
 {
@@ -10,11 +11,14 @@ namespace Building.Scripts.Game.Gameplay
     {
         public static void Register(DIContainer container, GameplayEnterParams gameplayEnterParams)
         {
-            container.RegisterFactory(c => new SomeGameplayService(
-                c.Resolve<IGameStateProvider>().GameState,
-                c.Resolve<SomeCommonService>())
-            ).AsSingle();
+            var gameStateProvider = container.Resolve<IGameStateProvider>();
+            var gameState = gameStateProvider.GameState;
             
+            var cmd = new CommandProcessor(gameStateProvider);
+            cmd.RegisterHandler(new CmdPlaceBuildingHandler(gameState));
+            container.RegisterInstance<ICommandProcessor>(cmd);
+            
+            container.RegisterFactory(_ => new BuildingsService(gameState.Buildings, cmd)).AsSingle();
         }
     }
 }

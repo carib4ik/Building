@@ -1,12 +1,11 @@
 using System;
 using UnityEngine;
 
-namespace Building.Scripts.Game.State.Buildings
+namespace Building.Scripts.Game.State.Entities.Buildings
 {
     [Serializable]
-    public class BuildingEntity
+    public class BuildingEntity : Entity
     {
-        public int Id;
         public string TypeId;
         public Vector3Int Position;
         public int Level;
