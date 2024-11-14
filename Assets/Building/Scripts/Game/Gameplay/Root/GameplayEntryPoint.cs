@@ -1,12 +1,9 @@
-using BaCon;
 using BaCon.Scripts;
-using Building.Scripts.Game.Gameplay.Commands;
 using Building.Scripts.Game.Gameplay.Root.View;
 using Building.Scripts.Game.Gameplay.Services;
 using Building.Scripts.Game.GameRoot;
 using Building.Scripts.Game.MainMenu.Root;
 using Building.Scripts.Game.State;
-using Building.Scripts.Game.State.cmd;
 using ObservableCollections;
 using R3;
 using UnityEngine;
@@ -16,6 +13,7 @@ namespace Building.Scripts.Game.Gameplay.Root
     public class GameplayEntryPoint : MonoBehaviour
     {
         [SerializeField] private UIGameplayRootBinder _sceneUIRootPrefab;
+        [SerializeField] private WorldGameplayRootBinder _worldRootBinder;
 
 
         public Observable<GameplayExitParams> Run(DIContainer gameplayContainer, GameplayEnterParams enterParams)
@@ -43,8 +41,9 @@ namespace Building.Scripts.Game.Gameplay.Root
             buildingsService.PlaceBuilding("boryan", GetRandomPosition());
             
             //for test
+            _worldRootBinder.Bind(gameplayViewModelsContainer.Resolve<WorldGameplayRootViewModel>());
+            
             gameplayViewModelsContainer.Resolve<UIGameplayRootViewModel>();
-            gameplayViewModelsContainer.Resolve<WorldGameplayRootViewModel>();
             
             var uiRoot = gameplayContainer.Resolve<UIRootView>();
             var uiScene = Instantiate(_sceneUIRootPrefab);
