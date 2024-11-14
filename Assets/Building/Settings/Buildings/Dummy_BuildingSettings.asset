@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48398606e76241cea717eb8a302a7950, type: 3}
+  m_Name: Dummy_BuildingSettings
+  m_EditorClassIdentifier: 
+  TypeId: dummy
+  TitleId: 1234
+  DescriptionId: skmfdgfkk
+  LevelsSettings:
+  - {fileID: 11400000, guid: 2f7d3d5c44fe21c49b64993217269850, type: 2}
+  - {fileID: 11400000, guid: 2677cdd105283c8458fcf058cf07440d, type: 2}
+  - {fileID: 11400000, guid: c9a2e03af594f0a4eb48629c8384aaf3, type: 2}

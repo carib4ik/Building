@@ -3,6 +3,7 @@ using BaCon.Scripts;
 using Building.Scripts.Game.Gameplay.Root;
 using Building.Scripts.Game.GameRoot.Services;
 using Building.Scripts.Game.MainMenu.Root;
+using Building.Scripts.Game.Settings;
 using Building.Scripts.Game.State;
 using Building.Scripts.Utils;
 using R3;
@@ -39,6 +40,10 @@ namespace Building.Scripts.Game.GameRoot
             _uiRoot = Object.Instantiate(prefabUIRoot);
             Object.DontDestroyOnLoad(_uiRoot.gameObject);
             _rootContainer.RegisterInstance(_uiRoot);
+            
+            // App Settings
+            var settingsProvider = new SettingsProvider();
+            _rootContainer.RegisterInstance<ISettingsProvider>(settingsProvider);
 
             var gameStateProvider = new PlayerPrefsGameStateProvider();
             gameStateProvider.LoadSettingsState();
@@ -47,8 +52,10 @@ namespace Building.Scripts.Game.GameRoot
             _rootContainer.RegisterFactory(c => new SomeCommonService()).AsSingle();
         }
 
-        private void RunGame()
+        private async void RunGame()
         {
+            await _rootContainer.Resolve<ISettingsProvider>().LoadGameSettings();
+            
 #if UNITY_EDITOR
             var sceneName = SceneManager.GetActiveScene().name;
 

@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6da55d84fb21486fab76d049f7884548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefabBuilding: {fileID: 0}
+  _prefabBuilding: {fileID: 6714584382829962345, guid: a435d57fc82d9d64290c378772f4fc8e, type: 3}
 --- !u!4 &790161513
 Transform:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneUIRootPrefab: {fileID: 546411887542761824, guid: db4d52ea095abf7469e6e73c3348cb8d, type: 3}
-  _worldRootBinder: {fileID: 0}
+  _worldRootBinder: {fileID: 790161512}
 --- !u!4 &874018236
 Transform:
   m_ObjectHideFlags: 0
